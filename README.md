@@ -8,8 +8,6 @@
 
 !\[Status](https://img.shields.io/badge/Project-Complete-brightgreen)
 
-!\[License](https://img.shields.io/badge/License-MIT-yellow)
-
 
 
 Machine learning project to forecast product sales across multiple retail outlets.

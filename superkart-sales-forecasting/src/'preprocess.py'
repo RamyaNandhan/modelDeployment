@@ -1,0 +1,29 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import OneHotEncoder
+import joblib
+
+def load_data(path):
+    return pd.read_csv(path)
+
+def preprocess(df, target_col):
+
+    X = df.drop(columns=[target_col])
+    y = df[target_col]
+
+    categorical_cols = X.select_dtypes(include=["object"]).columns
+    numeric_cols = X.select_dtypes(exclude=["object"]).columns
+
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ("cat", OneHotEncoder(handle_unknown="ignore"), categorical_cols),
+            ("num", "passthrough", numeric_cols)
+        ]
+    )
+
+    X_processed = preprocessor.fit_transform(X)
+
+    joblib.dump(preprocessor, "../deployment_files/preprocessor.pkl")
+
+    return train_test_split(X_processed, y, test_size=0.2, random_state=42)
